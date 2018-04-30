@@ -1,14 +1,14 @@
 # AWS_snapshot_analyzer
 Manage AWS EC2 instance snapshot with boto3
 
-#About
+# About
 manage EC2 instance snapshot with boto3.
 
-##Configuration
+## Configuration
 using AWS CLI to create shotty configuration file
 
 'aws configure --profile shotty'
 
-##Running
+## Running
 
 'pipenv run python 'shotty/shotty.py'
