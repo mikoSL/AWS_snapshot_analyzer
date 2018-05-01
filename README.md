@@ -8,4 +8,7 @@ using AWS CLI to create shotty configuration file
 
 ## Running
 
-'pipenv run python 'shotty/shotty.py'
+'pipenv run python 'shotty/shotty.py <command> <--project=PROJECT>'
+
+*command* is list, start, stop_instances
+*project* is optional
