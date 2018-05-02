@@ -1,4 +1,5 @@
 import boto3
+import botocore
 import click
 
 #use shotty profile in this session
@@ -143,7 +144,11 @@ def stop_instances(project):
     instances = filter_instances(project)
     for i in instances:
         print('Stoping {0}...'.format(i.id))
-        i.stop()
+        try:
+            i.stop()
+        except botocore.exceptions.ClientError as e:
+            print('Can not stop {0}. '.format(i.id) + str(e))
+            continue
 
     return
 
@@ -158,7 +163,11 @@ def start_instances(project):
     instances = filter_instances(project)
     for i in instances:
         print('Starting {0}...'.format(i.id))
-        i.start()
+        try:
+            i.start()
+        except botocore.exceptions.ClientError as e:
+            print('Can not start {0}. '.format(i.id) + str(e))
+            continue
 
     return
 
