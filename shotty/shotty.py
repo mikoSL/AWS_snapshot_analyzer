@@ -5,7 +5,7 @@ import click
 session = boto3.Session(profile_name = 'shotty')
 ec2 = session.resource('ec2')
 
-#to filter instances
+#filter instances
 def filter_instances(project):
     instances =[]
 
@@ -38,7 +38,6 @@ def list_volumes(project):
     instances = filter_instances(project)
 
     for i in instances:
-        i.stop()
         for v in i.volumes.all():
             for s in v.snapshots.all():
                 print(','.join((
@@ -51,9 +50,6 @@ def list_volumes(project):
                 )))
 
     return
-
-def volumes():
-    """Commands for volumes"""
 
 @cli.group('volumes')
 def volumes():
@@ -96,9 +92,21 @@ def create_snapshots(project):
     instances = filter_instances(project)
 
     for i in instances:
+        print('Stopping {0}...'.format(i.id))
+
+        i.stop()
+        i.wait_until_stopped()
+
         for v in i.volumes.all():
             print('Creating snapshot of {0}'.format(v.id))
-            v.create_snapshots(Description='Created by SnapshotAnalyzer_Script')
+            v.create_snapshot(Description='Created by SnapshotAnalyzer_Script')
+
+        print('Starting {0}...'.format(i.id))
+
+        i.start()
+        i.wait_until_running()
+
+    print('Job is done!')
 
     return
 
@@ -150,7 +158,7 @@ def start_instances(project):
     instances = filter_instances(project)
     for i in instances:
         print('Starting {0}...'.format(i.id))
-        i.stop()
+        i.start()
 
     return
 
