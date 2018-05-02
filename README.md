@@ -8,8 +8,7 @@ manage EC2 instance snapshot with boto3.
 
 ## Running
 
-pipenv run python shotty/shotty.py <command>
-<subcommand> <--project=PROJECT>
+pipenv run python shotty/shotty.py <command> <subcommand> <--project=PROJECT>
 
 * command  is instances, volumes, or snapshots.
 * subcommand  -- depends on command
